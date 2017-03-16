@@ -1,3 +1,5 @@
+require 'pry'
+
 class Game
   attr_accessor :player_1, :player_2, :board
 
@@ -24,6 +26,23 @@ class Game
   end
 
   def over?
-    return true if !@board.include?(" ")
+    return true if !@board.cells.include?(" ")
+  end
+
+  def won?
+    WIN_COMBINATIONS.detect do |win_combination|
+      @board.cells[win_combination[0]] == @board.cells[win_combination[1]] && @board.cells[win_combination[0]] == @board.cells[win_combination[2]] && @board.cells[win_combination[1]] != " "
+    end
+  end
+
+  def draw?
+    return false if won? != nil
+    return true if over? == true
+  end
+
+  def winner
+    if won?
+      @board.cells[won?[0]]
+    end
   end
 end
