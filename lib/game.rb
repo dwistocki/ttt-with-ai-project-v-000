@@ -52,5 +52,6 @@ class Game
       self.turn
     else @board.update(move_position, current_player)
     end
+    self.turn
   end
 end
