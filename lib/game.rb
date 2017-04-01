@@ -21,8 +21,8 @@ class Game
   end
 
   def current_player
-    return @player_1 if @board.cells.count(@player_1.token).odd? || @board.cells.count("X") == 0
-    return @player_2 if @board.cells.count(@player_2.token).odd?
+     @board.cells.count{|cell| cell == "X" || cell == "O"}.even? ? player_1 : player_2
+     # @board.cells.count{|cell| cell == player_1.token }.odd? ? player_1 : player_2
   end
 
   def over?
@@ -52,5 +52,12 @@ class Game
       self.turn
     else @board.update(move_position, current_player)
     end
+  end
+
+  def play
+    unless self.over? == true
+      self.current_player.move(@board)
+    end
+    self.over?
   end
 end
