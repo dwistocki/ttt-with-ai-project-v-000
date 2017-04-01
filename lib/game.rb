@@ -21,8 +21,8 @@ class Game
   end
 
   def current_player
-    return @player_1 if @board.cells.count("X").odd? || @board.cells.count("X") == 0
-    return @player_2 if @board.cells.count("O").odd?
+    return @player_1 if @board.cells.count(@player_1.token).odd? || @board.cells.count("X") == 0
+    return @player_2 if @board.cells.count(@player_2.token).odd?
   end
 
   def over?
