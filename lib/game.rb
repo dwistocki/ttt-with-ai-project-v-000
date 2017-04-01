@@ -21,12 +21,12 @@ class Game
   end
 
   def current_player
-     @board.cells.count{|cell| cell == "X" || cell == "O"}.even? ? player_1 : player_2
+     @board.turn_count.even? ? player_1 : player_2
      # @board.cells.count{|cell| cell == player_1.token }.odd? ? player_1 : player_2
   end
 
   def over?
-    return true if !@board.cells.include?(" ")
+    won? || draw?
   end
 
   def won?
@@ -36,8 +36,7 @@ class Game
   end
 
   def draw?
-    return false if won? != nil
-    return true if over? == true
+    @board.full? && !won?
   end
 
   def winner
@@ -47,17 +46,22 @@ class Game
   end
 
   def turn
-    move_position = self.current_player.move(board)
+    move_position = self.current_player.move(@board)
     if @board.valid_move?(move_position) == false
       self.turn
-    else @board.update(move_position, current_player)
+    else
+      @board.update(move_position, current_player)
     end
   end
 
   def play
-    unless self.over? == true
-      self.current_player.move(@board)
+    until over?
+      turn
     end
-    self.over?
+    if won?
+      puts "Congratulations #{winner}!"
+    elsif draw?
+      puts "Cat's Game!"
+    end
   end
 end
